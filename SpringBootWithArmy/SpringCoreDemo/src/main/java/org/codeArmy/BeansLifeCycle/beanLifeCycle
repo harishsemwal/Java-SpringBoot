@@ -1,0 +1,60 @@
+Bean LifeCycle: Singleton Bean --: Eager
+
+STEP1: IOC Container Start
+STEP2: Read Configuration
+STEP3: Read Bean Definition
+STEP4: Instantiate Object
+STEP5: Dependencies are Injected
+
+STEP4 + STEP5 = SAME - IF CONSTRUCTOR DEPENDENCY IS THERE
+
+STEP6: Aware Interfaces are called :
+       Aware Interfaces: BeanNameAware, ApplicationContextAware
+
+STEP7: Initialisation callbacks.
+        i-: InitializingBean
+        ii-: init Method
+        iii-: Post Construct
+
+STEP8: Bean is Ready To Use
+STEP9: Destruction CallBacks
+        i-: DisposableBean
+        ii-: destroyMethod
+        iii-: Pre Destroy
+
+STEP10: Bean is destroyed
+
+
+
+
+Prototype:
+
+need to destroy manually to destroy - otherwise create Memory Leak problem.
+
+
+Bean LifeCycle: Singleton Bean --: Eager
+
+STEP1: IOC Container Start
+STEP2: Read Configuration
+STEP3: Read Bean Definition
+STEP4: Instantiate Object ---: @Lazy --: Prototype --: not Performed
+STEP5: Dependencies are Injected
+
+STEP4 + STEP5 = SAME - IF CONSTRUCTOR DEPENDENCY IS THERE
+
+STEP6: Aware Interfaces are called :
+       Aware Interfaces: BeanNameAware, ApplicationContextAware
+
+STEP7: Initialisation callbacks.
+        i-: InitializingBean
+        ii-: init Method
+        iii-: Post Construct
+
+STEP8: Object is handover to client.
+
+
+
+
+We Can Resolve Circular dependency through Post Construct:
+
+
