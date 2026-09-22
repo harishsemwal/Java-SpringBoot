@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--    <bean id="paymentService" class="org.codeArmy.SpringXMLConfiguration.payment.PaymentService">-->
+    <!--        <constructor-arg index="0" value="UPI"/>-->
+    <!--        <constructor-arg index="1" value="3"/>-->
+    <!--    </bean>-->
+
+
+    <!--    <bean id="orderService"-->
+    <!--          name="orderServiceBean"-->
+    <!--          class="org.codeArmy.SpringXMLConfiguration.OrderService">-->
+    <!--        <property name="paymentService" ref="paymentService"/>-->
+    <!--    </bean>-->
+
+    <bean id="upiPaymentService" class="org.codeArmy.SpringXMLConfiguration.payment.UpiPaymentService"/>
+    <bean id="cardPaymentService" class="org.codeArmy.SpringXMLConfiguration.payment.CardPaymentService"/>
+
+    <bean id="orderService" name="orderServiceBean" class="org.codeArmy.SpringXMLConfiguration.OrderService">
+        <constructor-arg ref="cardPaymentService"/>
+    </bean>
+
+
+<!--    <bean id="userService" class="org.codeArmy.SpringXMLConfiguration.UserService" scope="prototype">-->
+<!--        <constructor-arg name="usernames">-->
+<!--            <list>-->
+<!--                <value>Harish</value>-->
+<!--                <value>Suresh</value>-->
+<!--                <value>Kuldeep</value>-->
+<!--            </list>-->
+
+<!--            &lt;!&ndash;            <map>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <entry key="" value=""/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </map>&ndash;&gt;-->
+<!--        </constructor-arg>-->
+<!--    </bean>-->
+
+    <bean id="userService"
+          class="org.codeArmy.SpringXMLConfiguration.UserService"
+          init-method="init"
+          destroy-method="cleanup"
+    />
+</beans>
