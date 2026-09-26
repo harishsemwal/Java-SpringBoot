@@ -1,0 +1,20 @@
+Actual value provide:
+
+application.properties
+application.yaml
+environment variables
+command Line argument
+system properties
+
+
+@Value
+
+@ConfigurationProperties
+
+
+How to start Spring Boot Application:
+
+We are interacting with IOC Container.
+
+ApplicationRunner
+CommandLineRunner
