@@ -1,0 +1,48 @@
+Client Server Architecture
+
+Client -: Postman <-------------------> Server
+
+Postman:
+
+GET, POST, PATCH, PUT, DELTE
+
+Create -> POST
+Read   ->  GET
+Update -> PUT
+Delete -> DELETE
+
+
+Post : /api/students
+Host: localhost:8080
+Headers: accept : application/json
+{
+body
+}
+
+Spring boot web
+mysql-driver
+spring data JPA
+
+
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class}) - proper not rqeuired to up.
+
+Create -: POST -: /api/students
+Read One Record -: GET -: /api/students/{id}
+Read All Request -: GET -:  /api/students
+Update -: PUT -: /api/students/{id}
+Delete -: DELETE -: /api/students/{id}
+
+
+Repository <------------------------------> Database
+
+SQL Query ---: mehtod (Spring JPA)
+
+Create ---: save() - Insert into Student();
+Read All -: findAll() -: select * from student
+Read one --: find() -: select * from student where id = 1;
+delete ----: deleteById()
+update ---: save()
+          : existsById()
+
+@PathVariable - while modifying by id.
+@RequestBody - while creating.
