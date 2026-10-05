@@ -22,22 +22,22 @@ public class StudentService {
         return createStudent;
     }
 
-    public StudentEntity getStudentById(Long id){
-        Optional<StudentEntity> studentById = studentRepository.findById(id);
-        if(studentById.isPresent()){
+    public StudentEntity getStudentById(Long id) {
+        Optional<StudentEntity> studentById = studentRepository.findByIdAndIsDeletedIsFalse(id);
+        if (studentById.isPresent()) {
             return studentById.get();
         }
         return new StudentEntity();
     }
 
-    public List<StudentEntity> getAllStudents(){
-        List<StudentEntity> students = studentRepository.findAll();
+    public List<StudentEntity> getAllStudents() {
+        List<StudentEntity> students = studentRepository.findByIsDeletedIsFalse();
         return students;
     }
 
-    public StudentEntity updateStudent(Long id, StudentEntity student){
+    public StudentEntity updateStudent(Long id, StudentEntity student) {
         Optional<StudentEntity> exitingStudentEntity = studentRepository.findById(id);
-        if(!exitingStudentEntity.isPresent()){
+        if (!exitingStudentEntity.isPresent()) {
             return null;
         }
         StudentEntity newStudentEntity = exitingStudentEntity.get();
@@ -46,19 +46,31 @@ public class StudentService {
         newStudentEntity.setRollNo(student.getRollNo());
         newStudentEntity.setEmail(student.getEmail());
         newStudentEntity.setSubject(student.getSubject());
+        newStudentEntity.setDeleted(false);
 
         return newStudentEntity;
     }
 
-    public boolean deleteStudent(Long id){
+    // exist by Id and isDeleted = false
+    public boolean deleteStudent(Long id) {
         studentRepository.deleteById(id);
         Boolean isStudentPresent = studentRepository.existsById(id);
-        if(isStudentPresent){
+        if (isStudentPresent) {
             return false;
         }
         return true;
     }
 
+    public boolean softDeleteStudent(Long id) {
+        Optional<StudentEntity> studentEntity = studentRepository.findById(id);
+        if(studentEntity.get() == null){
+            return false;
+        }
+        StudentEntity copyStudentEntity = studentEntity.get();
+        copyStudentEntity.setDeleted(true);
+        studentRepository.save(copyStudentEntity);
+        return true;
+    }
 
 
     // End Point Store(/api/student/) : POST

@@ -32,6 +32,8 @@ Read All Request -: GET -:  /api/students
 Update -: PUT -: /api/students/{id}
 Delete -: DELETE -: /api/students/{id}
 
+PATCH -: Soft Delete
+
 
 Repository <------------------------------> Database
 
@@ -46,3 +48,13 @@ update ---: save()
 
 @PathVariable - while modifying by id.
 @RequestBody - while creating.
+
+
+--------------------------------------Soft Delete------------------------
+
+Hard Delete ---> remove directly from DB
+Soft Delete ----> isDeleted  --> Patch
+
+
+@RequestParam =: Param pass through Postman.
+http://localhost:8181/api/students/get?id=1

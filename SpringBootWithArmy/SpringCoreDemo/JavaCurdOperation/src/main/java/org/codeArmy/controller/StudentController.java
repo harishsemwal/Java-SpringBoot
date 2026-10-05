@@ -2,6 +2,7 @@ package org.codeArmy.controller;
 
 import org.codeArmy.entity.StudentEntity;
 import org.codeArmy.service.StudentService;
+import org.hibernate.annotations.SoftDelete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,15 @@ public class StudentController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createStudent(@RequestBody StudentEntity studentEntity) {
+        studentEntity.setDeleted(false);
         StudentEntity createdStudentEntity = studentService.createStudent(studentEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body("Student Details Added");
     }
 
     // read one student
-    @GetMapping("/get/{id}")
-    public ResponseEntity<StudentEntity> getStudent(@PathVariable Long id){
+//    @GetMapping("/get/{id}")
+    @GetMapping("/get") /* for @RequestParam */
+    public ResponseEntity<StudentEntity> getStudent(@RequestParam Long id){
         System.out.println("Id: " + id);
         StudentEntity student = studentService.getStudentById(id);
         return ResponseEntity.ok(student);
@@ -55,6 +58,15 @@ public class StudentController {
             return ResponseEntity.ok("Student Record Deleted..");
         }
         return ResponseEntity.ok("Student Record Not Present..");
+    }
+
+    @PatchMapping("/soft-delete/{id}")
+    public ResponseEntity<String> softDeleteStudent(@PathVariable Long id){
+        boolean student = studentService.softDeleteStudent(id);
+        if(student){
+            return ResponseEntity.ok("Record Deleted..");
+        }
+        return ResponseEntity.ok("Recoed not deleted..");
     }
 
 }
