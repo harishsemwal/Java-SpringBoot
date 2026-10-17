@@ -1,0 +1,15 @@
+Create --> POST --> /users
+Read ----> GET ---> /users?id=1
+ReadAll ---> GET ---> /users
+update ---> PUT -----/users
+
+
+
+Tomcat --> GET /users
+
+UserServlet servlet = new UserServlet();
+servlet.doPost(Http.);
+
+servlet.doGet();
+
+Code wise it is correct but need to connect with Tomcat.

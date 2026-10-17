@@ -1,0 +1,71 @@
+Client Server Architechture:
+
+Web Application ---> Java
+       Core Java
+
+i-: java.net -user earlier
+ii-: ServerSocket, Socket
+
+localhost:8080 --: GET/hello
+/login --: login()
+/courses --: courses()
+
+--- HTTP Request
+method name ----> GET
+end point --->  /hello
+headers ----->
+body
+
+if(metho.endpont("user") && method.equals('GET'){
+}
+Read HTTP Text
+Parse the URL
+parse header
+parse endpoint
+connect server
+make sure tomcat should run completely end.
+server have multiple request -: very diffcult to handle application in java.net package.
+
+ServerSocket, Socket:
+----------------------
+
+Client --------------------: HTTP Request
+                             Headers, body, Queryparam, end point, method
+then /hello ------> hello()
+
+
+Servlets & servlet Container
+
+Server Container handle -: HTTP Request
+Headers, body, Queryparam, end point, method
+Name: Tomcat
+
+/hello ---: call method: hello()
+
+class Greeting{
+hello()
+}
+
+What is Tomcat --: Java Server ---: Java Web Application Run
+
+Long Running process ---> Port(8080) -- Listen
+
+
+IOC Container -: Object Manage --> Beans --> @Component, @Bean , .java classes - IOC manage these.
+Tomcat --: Servlet Manage --> .java classes - tomcat manage these
+
+
+Tomcat -: HTTPServletRequest --: getHostName(), getEndPoint(), getHeaders(), HTTPServletResponse()
+Original Object Present in Tomcat --> sent copy to servletA, ServletB the as per reference value updated -- servlet has void datatype always.
+
+
+External Tomcat :
+----------------
+
+download --: JAR - Java Archives.
+WAR --: Deploy Tomcat
+WAR : Complied classfiles, config, servlet classes, HTML/CSS/JS
+
+By default packaging --: JAR
+
+
