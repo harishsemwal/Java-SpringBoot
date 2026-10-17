@@ -13,3 +13,23 @@ servlet.doPost(Http.);
 servlet.doGet();
 
 Code wise it is correct but need to connect with Tomcat.
+
+<scope> : Provided : it is only require for compile purpose, but when you create WAR file, don't create those packages.
+
+Tomcat --- Manage --- servlet
+
+- Create
+- Destroy
+
+Lifecycle:
+
+init() ---: Post Construct
+service() ---: doGet()....
+destroy() ----: PreDestroy()
+
+Flow
+
+init() ----> service() ----> call --- doGet(), doPost() that's way we overwrite it.
+
+
+Tomcat always create server @lazily.
