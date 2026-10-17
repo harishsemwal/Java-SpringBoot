@@ -32,4 +32,11 @@ Flow
 init() ----> service() ----> call --- doGet(), doPost() that's way we overwrite it.
 
 
+-------------------
+
+
+Tomcat ---> Central Servlet ---- Req1, Req2, Req3....
+
+Dispatcher Servlet --: controllers
+
 Tomcat always create server @lazily.
