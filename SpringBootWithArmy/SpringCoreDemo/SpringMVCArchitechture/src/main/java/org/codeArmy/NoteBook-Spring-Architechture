@@ -1,0 +1,14 @@
+Spring MVC Architecture:
+
+Sping MVC --?? ---: Actual Web Framework
+-- RestAPI
+-- Web App(HTML/JSP)
+
+Spring_webmvc --> spring mvc.
+
+@Controller
+@RestController
+@PostMapping
+
+
+Spring Boot ?? -: Easy- A
