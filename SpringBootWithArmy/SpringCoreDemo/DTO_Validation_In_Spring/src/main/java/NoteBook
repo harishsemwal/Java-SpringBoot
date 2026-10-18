@@ -1,0 +1,12 @@
+Annotations:
+@NotNull
+@NotBlank
+@NotEmpty
+@Email
+@Min(value)
+@Max(value)
+@Size(min, max)
+@Pattern(regexp)
+@Positive
+@Past
+@Future
