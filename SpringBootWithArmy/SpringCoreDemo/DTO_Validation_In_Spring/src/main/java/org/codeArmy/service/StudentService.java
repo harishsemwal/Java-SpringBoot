@@ -5,6 +5,7 @@ import org.codeArmy.dto.CreateStudentResponseDTO;
 import org.codeArmy.dto.UpdateStudentRequestDTO;
 import org.codeArmy.dto.UpdateStudentResponseDTO;
 import org.codeArmy.entity.Student;
+import org.codeArmy.exception.ResourceNotFoundException;
 import org.codeArmy.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,8 @@ public class StudentService {
     }
 
     public UpdateStudentResponseDTO updateStudent(Long id, UpdateStudentRequestDTO updateStudentRequestDTO){
-        Optional<Student> existStudent = studentRepository.findById(id);
+        Optional<Student> existStudent = Optional.ofNullable(studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource Not Found for " + id)));
 
         if(existStudent.isEmpty()){
             return null;

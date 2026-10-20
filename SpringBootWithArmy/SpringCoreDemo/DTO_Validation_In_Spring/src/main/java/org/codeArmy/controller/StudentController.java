@@ -22,13 +22,13 @@ public class StudentController {
     }
 
     //create
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<CreateStudentResponseDTO> createStudent(@Valid @RequestBody CreateStudentRequestDTO studentRequestDTO){
         CreateStudentResponseDTO studentResponse = studentService.createStudent(studentRequestDTO);
         return ResponseEntity.ok(studentResponse);
     }
 
-    @PostMapping("/update")
+    @PutMapping
     public ResponseEntity<UpdateStudentResponseDTO> updateStudent(@RequestBody UpdateStudentRequestDTO updateStudentRequestDTO){
         System.out.println("Id: " +  updateStudentRequestDTO.getId());
         UpdateStudentResponseDTO updateStudentResponseDTO = studentService.updateStudent(updateStudentRequestDTO.getId(), updateStudentRequestDTO);
@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     //read
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<CreateStudentResponseDTO>> getAllStudent(){
         List<CreateStudentResponseDTO> studentList = studentService.getAllStudents();
         if(studentList.isEmpty()){
