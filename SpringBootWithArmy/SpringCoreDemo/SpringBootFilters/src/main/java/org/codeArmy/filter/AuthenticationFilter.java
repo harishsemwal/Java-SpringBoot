@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.UUID;
 
-@Component
-@Order(1)
+//@Component
+//@Order(1)
 public class AuthenticationFilter implements Filter {
 
     @Override

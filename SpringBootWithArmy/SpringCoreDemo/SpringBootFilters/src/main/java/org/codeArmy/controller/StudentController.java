@@ -1,6 +1,7 @@
 package org.codeArmy.controller;
 
 import org.codeArmy.dto.StudentDto;
+import org.codeArmy.dto.StudentResponseDto;
 import org.codeArmy.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +19,9 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createStudent(@RequestBody StudentDto studentDto) {
-        studentService.createStudent(studentDto);
-        return ResponseEntity.ok("Done");
+    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentDto studentDto) {
+        StudentResponseDto studentResponseDto = studentService.createStudent(studentDto);
+        return ResponseEntity.ok(studentResponseDto);
     }
 
 }
