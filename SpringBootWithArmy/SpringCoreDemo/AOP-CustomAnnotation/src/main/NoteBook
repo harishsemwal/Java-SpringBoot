@@ -1,0 +1,10 @@
+Bean Life Cycle
+1. Read bean definition.
+2. Instantiate object.
+3. Inject dependencies.
+4. Run aware callbacks.
+5. Run BeanPostProcessors before initialization.
+6. Run initialization callbacks.
+7. Run BeanPostProcessors after initialization.
+8. Store the final bean reference.
+
