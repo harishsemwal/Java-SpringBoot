@@ -1,0 +1,8 @@
+JDBC:
+Detect Spring JDBC on the classpath.
+Detect a JDBC driver.
+Read spring.datasource properties.
+Detect an available connection-pool implementation.
+Prefer HikariCP when available.
+Create a configured DataSource.
+Register it as a Spring bean.

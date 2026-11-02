@@ -1,3 +1,4 @@
+
 package org.codeArmy.entity;
 
 import jakarta.persistence.Entity;
@@ -14,6 +15,10 @@ public class StudentEntity {
     private String name;
     private String email;
 
+    public StudentEntity() {
+    }
+
+    // Parameterized constructor
     public StudentEntity(int age, String name, String email) {
         this.age = age;
         this.name = name;

@@ -1,140 +1,101 @@
 package org.codeArmy.repository;
 
 import org.codeArmy.entity.StudentEntity;
+import org.codeArmy.mapper.StudentRowMapper;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
+@Repository
 public class StudentRepository {
-    String url = "jdbc:h2:mem:testdb";
-    String username = "sa";
-    String password = "";
+    private final JdbcTemplate jdbcTemplate;
+//    private final StudentRowMapper rowMapper = new StudentRowMapper();
 
+    private RowMapper<StudentEntity> rowMapper = new BeanPropertyRowMapper<>(StudentEntity.class);
+
+
+    public StudentRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    // CREATE
     public void createUser(StudentEntity student) {
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-//            Statement statement = connection.createStatement();
-//            String sql = "INSERT INTO STUDENT_ENTITY(NAME, EMAIL, AGE) VALUES " + "('HARISH', 'HARISHSEMWAL.COM', 21)";
-
-            String sql = "INSERT INTO STUDENT_ENTITY(NAME, EMAIL, AGE) VALUES " + "(?, ?, ?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, student.getName());
-            preparedStatement.setString(2, student.getEmail());
-            preparedStatement.setInt(3, student.getAge());
-
-//            int result = statement.executeUpdate(sql);
-            int rowAffected = preparedStatement.executeUpdate();
-//            if (result == 1) {
-            if (rowAffected == 1) {
-                System.out.println("Create Operation successful..");
-            } else {
-                System.out.println("Connection failed..");
-            }
-
-            System.out.println("Database connected Successfully.");
-            connection.close();
-        } catch (SQLException sqlException) {
-            System.out.println("Database Connection failed..");
-            sqlException.printStackTrace();
-        }
+        String sql = "INSERT INTO STUDENT_ENTITY(NAME, EMAIL, AGE) VALUES (?, ?, ?)";
+        int rowAffected = jdbcTemplate.update(sql, student.getName(), student.getEmail(), student.getAge());
+        if (rowAffected == 1) System.out.println("Create Operation successful..");
     }
 
+    // UPDATE
     public void updateUser() {
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-
-            Statement statement = connection.createStatement();
-
-            String sql = "INSERT INTO STUDENT_ENTITY(NAME, EMAIL, AGE) VALUES " + "('Prasad', 'prasad@gmail.com', 23)";
-
-            int result = statement.executeUpdate(sql);
-
-            if (result == 1) {
-                System.out.println("Update Operation successful..");
-            } else {
-                System.out.println("Update Connection failed..");
-            }
-            System.out.println("Database connected Successfully.");
-            connection.close();
-        } catch (SQLException sqlException) {
-            System.out.println("Database Connection failed..");
-            sqlException.printStackTrace();
-        }
+        String sql = "UPDATE STUDENT_ENTITY SET NAME = ?, EMAIL = ?, AGE = ? WHERE ID = ?";
+        int rowAffected = jdbcTemplate.update(sql, "Prasad", "prasad@gmail.com", 23, 1);
+        if (rowAffected == 1) System.out.println("Update Operation successful..");
     }
 
+    // DELETE
     public void deleteUser() {
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-
-            Statement statement = connection.createStatement();
-
-            String sql = "DELETE FROM STUDENT_ENTITY WHERE ID = 1";
-
-            int result = statement.executeUpdate(sql);
-
-            if (result == 1) {
-                System.out.println("Delete Operation successful..");
-            } else {
-                System.out.println("Delete Connection failed..");
-            }
-            System.out.println("Database connected Successfully.");
-            connection.close();
-        } catch (SQLException sqlException) {
-            System.out.println("Database Connection failed..");
-            sqlException.printStackTrace();
-        }
+        String sql = "DELETE FROM STUDENT_ENTITY WHERE ID = ?";
+        int rowAffected = jdbcTemplate.update(sql, 1);
+        if (rowAffected == 1) System.out.println("Delete Operation successful..");
     }
 
+    // READ
+    /*
     public void getUserById() {
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-
-            Statement statement = connection.createStatement();
-
-            String sql = "SELECT id, name, email, age FROM STUDENT_ENTITY WHERE ID = 1";
-
-            ResultSet result = statement.executeQuery(sql);
-            result.next();
-
-            StudentEntity studentEntity = mapRow(result);
-            System.out.println(studentEntity.getId() + " : " + studentEntity.getEmail() + " : " + studentEntity.getAge() + " : " + studentEntity.getName());
-            System.out.println("Database connected Successfully.");
-            connection.close();
-        } catch (SQLException sqlException) {
-            System.out.println("Database Connection failed..");
-            sqlException.printStackTrace();
-        }
+        String sql = "SELECT id, name, email, age FROM STUDENT_ENTITY WHERE ID = ?";
+        StudentEntity student = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> mapRow(rs), 1);
+        System.out.println(student.getId() + " : " + student.getEmail() + " : " + student.getAge() + " : " + student.getName());
     }
 
+    // COMPLETE CRUD (READ ALL)
     public void completeCURD() {
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement();
-            String sql = "SELECT id, name, email, age FROM STUDENT_ENTITY WHERE ID = 1";
-            boolean result = statement.execute(sql);
-            if (result) {
-                ResultSet resultSet = statement.getResultSet();
-                System.out.println("Reading....");
-            } else {
-                int affectedRow = statement.getUpdateCount();
-                System.out.println("Creating, Updating, Deleting... with count" + affectedRow);
-            }
+        String sql = "SELECT id, name, email, age FROM STUDENT_ENTITY WHERE ID = ?";
+        List<StudentEntity> students = jdbcTemplate.query(sql, (rs, rowNum) -> mapRow(rs), 1);
+        if (!students.isEmpty()) {
+            System.out.println("Reading....");
+            for (StudentEntity student : students) System.out.println(student.getName());
+        }
+    }
+     */
 
-            connection.close();
-        } catch (SQLException sqlException) {
-            System.out.println("Database Connection failed..");
-            sqlException.printStackTrace();
+    public List<StudentEntity> getStudent() {
+        String sql = """
+                SELECT ID, NAME, AGE FROM STUDENT_ENTITY;
+                """;
+        List<StudentEntity> studentEntities = jdbcTemplate.query(sql, new StudentRowMapper());
+        System.out.println(studentEntities);
+        return studentEntities;
+    }
+
+    // READ
+    public void getUserById() {
+        String sql = "SELECT id, name, email, age FROM STUDENT_ENTITY WHERE ID = ?";
+        StudentEntity student = jdbcTemplate.queryForObject(sql, rowMapper, 1);
+        System.out.println(student.getName());
+    }
+
+    // READ ALL
+    public void completeCURD() {
+        String sql = "SELECT id, name, email, age FROM STUDENT_ENTITY";
+        List<StudentEntity> students = jdbcTemplate.query(sql, rowMapper);
+
+        for (StudentEntity student : students) {
+            System.out.println(student.getName());
         }
     }
 
-    private StudentEntity mapRow(ResultSet resultSet) throws SQLException {
-        StudentEntity studentEntity = new StudentEntity(0, null, null);
-
-        studentEntity.setId(resultSet.getLong("id"));
-        studentEntity.setName(resultSet.getString("name"));
-        studentEntity.setAge((int) resultSet.getLong("age"));
-        studentEntity.setEmail(resultSet.getString("email"));
-
-        return studentEntity;
+    // ROW MAPPER
+    private StudentEntity mapRow(ResultSet rs) throws SQLException {
+        StudentEntity student = new StudentEntity(0, null, null);
+        student.setId(rs.getLong("id"));
+        student.setName(rs.getString("name"));
+        student.setAge(rs.getInt("age"));
+        student.setEmail(rs.getString("email"));
+        return student;
     }
 }
